@@ -1,3 +1,8 @@
-cproject/
-project/
+.cproject/
+.project/
+Debug/
+
 *.out
+*.gch
+*.index
+*.master
