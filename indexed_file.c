@@ -151,10 +151,6 @@ int index_add(indexed_file_t *file, user_t *user)
 	//Update the index in our data structure
 	index_add_index(file, user->userid, file->records->length);
 
-	//Update in the file
-
-
-
 	return 0;
 }
 
@@ -168,9 +164,4 @@ int index_update(indexed_file_t *file, user_t *user)
 
 	//Write the user out
 	write(file->master_fid, user, sizeof(user_t));
-}
-
-int index_delete(indexed_file_t *file, int id)
-{
-	return 0;
 }

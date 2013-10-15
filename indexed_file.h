@@ -37,10 +37,6 @@ int index_add_index(indexed_file_t *file, int id, int index);
 
 int index_add(indexed_file_t *file, user_t *user);
 int index_update(indexed_file_t *file, user_t *user);
-int index_delete(indexed_file_t *file, int id);
-
-
-
 
 
 #endif /* INDEXED_FILE_H_ */
