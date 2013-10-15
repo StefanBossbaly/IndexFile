@@ -15,5 +15,17 @@ int main()
 	indexed_file_t file;
 
 	index_init(&file, "user.master", "user.index");
+
+	index_open_transaction(&file);
+
+	user_t user;
+	user_init(&user, 1, "Stefan", "Bossbaly", 23);
+
+	index_add(&file, &user);
+
+	index_close_transaction(&file);
+
+	printf("Hello\n");
+
 	return 0;
 }
