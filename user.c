@@ -7,7 +7,7 @@
 
 #include "user.h"
 
-void user_init(user_t *user, int userid, char *firstname, char *lastname, int age)
+void user_init(user_t *user, int userid, char *lastname, char *firstname, int age)
 {
 	user->userid = userid;
 	strcpy(user->firstname, firstname);

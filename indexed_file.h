@@ -31,6 +31,8 @@ void index_init(indexed_file_t *file, char *master, char *index);
 void index_open_transaction(indexed_file_t *file);
 void index_close_transaction(indexed_file_t *file);
 
+int index_get_user(indexed_file_t *file, int userid, user_t *buffer);
+
 int index_get_midpoint(int min, int max);
 int index_get_index(indexed_file_t *file, int id);
 int index_add_index(indexed_file_t *file, int id, int index);

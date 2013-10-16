@@ -18,5 +18,5 @@ typedef struct
 	int age;
 } user_t;
 
-void user_init(user_t *user, int userid, char *firstname, char *lastname, int age);
+void user_init(user_t *user, int userid, char *lastname, char *firstname, int age);
 #endif /* USER_H_ */

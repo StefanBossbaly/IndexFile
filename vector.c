@@ -68,8 +68,16 @@ void vector_insert(struct vector *vector, int index, void *data, size_t size) {
 	if (index < 0 || index > vector->length)
 		return;
 
-	element_dealloc(vector->elements[index]);
+	vector_ensure_capacity(vector);
+
+	int i;
+	for (i = vector->length; i >= index; i--)
+	{
+		vector->elements[i + 1] = vector->elements[i];
+	}
+
 	vector->elements[index] = element_alloc(data, size);
+	vector->length++;
 }
 
 void vector_delete(struct vector *vector, int index) {

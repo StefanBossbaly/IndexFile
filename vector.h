@@ -21,8 +21,8 @@ struct vector {
 typedef struct vector vector_t;
 
 //Element
-static struct element* element_alloc();
-static void element_dealloc(struct element *element);
+//static struct element* element_alloc();
+//static void element_dealloc(struct element *element);
 
 //Vector
 struct vector *vector_alloc();
