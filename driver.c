@@ -11,21 +11,28 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <sys/stat.h>
+
 void print_users(indexed_file_t *file)
 {
 	int i = 0;
 	user_t user;
 
-	if (file->records->length == 0)
+	if (file->size == 0)
 	{
 		printf("Master file is empty\n");
 	}
 
-	for (i = 0; i < file->records->length; i++)
-	{
-		indexed_rec_t *record = vector_get(file->records, i);
+	lseek(file->master_fid, 0, SEEK_SET);
 
-		index_get_user(file, record->id, &user);
+	for (i = 0; i < file->size; i++)
+	{
+		read(file->master_fid, &user, sizeof(user_t));
+
 		printf("%i, %s, %s, %i\n", user.userid, user.lastname, user.firstname, user.age);
 	}
 }

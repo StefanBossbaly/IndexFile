@@ -22,9 +22,9 @@ typedef struct
 {
 	char index_fname[50];
 	char master_fname[50];
-	FILE *index_file;
+	int index_fid;
 	int master_fid;
-	vector_t *records;
+	int size;
 } indexed_file_t;
 
 void index_init(indexed_file_t *file, char *master, char *index);
