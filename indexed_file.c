@@ -12,6 +12,7 @@
 
 void index_init(indexed_file_t *file, char *master, char *index)
 {
+	//Copy the master and index file name's our structure
 	strcpy(file->master_fname, master);
 	strcpy(file->index_fname, index);
 }
@@ -34,6 +35,7 @@ void index_close_transaction(indexed_file_t *file)
 	close(file->index_fid);
 	close(file->master_fid);
 
+	//Set the fid to -1
 	file->master_fid = -1;
 	file->index_fid = -1;
 }
@@ -81,11 +83,17 @@ int index_add_index(indexed_file_t *file, int id, int index)
 		//Read the index record from the index file
 		read(file->index_fid, &current, sizeof(indexed_rec_t));
 
+		//The current id is bigger then the id we are trying to insert, so insert it here
 		if (current.id > id)
 		{
+			//Well here we are. This is the price we have to pay for keeping all the data in an array.
+			//We have to move each index record back one so that we can insert the new record into the
+			//correct location. We could have a bigger buffer like a buffer that holds multiple indexed_rec_t
+			//but this will work in all cases and stresses the point.
 			int j;
 			for (j = file->size - 1; j >= i; j--)
 			{
+				//Declare a temp buffer
 				indexed_rec_t buffer;
 
 				//Move to the space
@@ -98,8 +106,10 @@ int index_add_index(indexed_file_t *file, int id, int index)
 				write(file->index_fid, &buffer, sizeof(indexed_rec_t));
 			}
 
+			//Seek to the position in the index file where we want to insert the record
 			lseek(file->index_fid, i * sizeof(indexed_rec_t), SEEK_SET);
 
+			//Write the record to the index file
 			write(file->index_fid, &record, sizeof(indexed_rec_t));
 
 			return i;
@@ -179,6 +189,7 @@ int index_add(indexed_file_t *file, user_t *user)
 	//Update the index in our data structure
 	index_add_index(file, user->userid, file->size);
 
+	//Increment the file size
 	file->size++;
 
 	return 0;
