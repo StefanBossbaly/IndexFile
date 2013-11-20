@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
 	//Create the index file structure
 	indexed_file_t file;
-	index_init(&file, argv[1], argv[2]);
+	index_init(&file, argv[1], argv[2], sizeof(user_t));
 
 	//Open a transaction
 	index_open_transaction(&file);
@@ -94,21 +94,21 @@ int main(int argc, char *argv[])
 			if (index  != -1)
 			{
 				printf("ERROR - userid exists.\n");
-				index_get_user(&file, parameter1, &user);
+				index_get_data(&file, parameter1, &user);
 				printf("%i, %s, %s, %i\n", user.userid, user.lastname, user.firstname, user.age);
 			}
 			else
 			{
 				printf("ADD: %i, %s, %s, %i\n", parameter1, parameter2, parameter3, parameter4);
 				user_init(&user, parameter1, parameter2, parameter3, parameter4);
-				index_add(&file, &user);
+				index_add(&file, user.userid, &user);
 			}
 		}
 		//Check to see if the command if the update age command
 		else if (sscanf(buffer, "* %i %i", &parameter1, &parameter4))
 		{
 			//Get the result code from getting the user
-			int resultCode = index_get_user(&file, parameter1, &user);
+			int resultCode = index_get_data(&file, parameter1, &user);
 
 			//Something bad happened
 			if (resultCode == -1)
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
 			{
 				printf("BEFORE: %i, %s, %s, %i\n", user.userid, user.lastname, user.firstname, user.age);
 				user.age = parameter4;
-				index_update(&file, &user);
+				index_update(&file, user.userid, &user);
 				printf("AFTER: %i, %s, %s, %i\n", user.userid, user.lastname, user.firstname, user.age);
 			}
 		}
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 		else if (sscanf(buffer, "? %i", &parameter1))
 		{
 			//Get the result code from getting the user
-			int resultCode = index_get_user(&file, parameter1, &user);
+			int resultCode = index_get_data(&file, parameter1, &user);
 
 			if (resultCode == -1)
 			{
