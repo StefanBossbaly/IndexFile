@@ -10,7 +10,6 @@
 
 #include "user.h"
 #include "stdio.h"
-#include "vector.h"
 
 typedef struct
 {
